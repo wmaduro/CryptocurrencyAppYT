@@ -1,54 +1,55 @@
 package com.plcoding.cryptocurrencyappyt.presentation.coin_list
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.plcoding.cryptocurrencyappyt.presentation.Screen
-import com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.CoinListItem
+import com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.coinlist.CoinList
+import com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.headerbuttons.HeaderButtons
+import com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.lixoheader.LixoHeader
+import com.plcoding.cryptocurrencyappyt.presentation.coin_list.viewmodel.event.CoinListEvent
+import com.plcoding.cryptocurrencyappyt.presentation.coin_list.viewmodel.CoinListViewModel
 
 @Composable
 fun CoinListScreen(
     navController: NavController,
     viewModel: CoinListViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.value
-    Box(modifier = Modifier.fillMaxSize()) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(state.coins) { coin ->
-                CoinListItem(
-                    coin = coin,
-                    onItemClick = {
-                        navController.navigate(Screen.CoinDetailScreen.route + "/${coin.id}")
-                    }
-                )
+    val coinListState = viewModel.coinListState.value
+    val lixoState = viewModel.lixoHeaderState.value
+
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        HeaderButtons(
+            onLixoClick = {
+                viewModel.onEvent(CoinListEvent.RefreshLixo)
+            },
+            onDataClick = {
+                viewModel.onEvent(CoinListEvent.RefreshData)
             }
-        }
-        if(state.error.isNotBlank()) {
-            Text(
-                text = state.error,
-                color = MaterialTheme.colors.error,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .align(Alignment.Center)
-            )
-        }
-        if(state.isLoading) {
-            CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-        }
+        )
+
+        LixoHeader(
+            data = lixoState.data,
+            isLoading = lixoState.isLoading
+        )
+
+        CoinList(
+            coins = coinListState.coins,
+            onItemClick = { coinId ->
+                navigateToItemDetail(coinId, navController)
+            },
+            error = coinListState.error,
+            isLoading = coinListState.isLoading
+        )
+
     }
+}
+
+private fun navigateToItemDetail(coinId: String, navController: NavController) {
+    navController.navigate(Screen.CoinDetailScreen.route + "/${coinId}")
 }

@@ -8,4 +8,6 @@ interface CoinRepository {
     suspend fun getCoins(): List<CoinDto>
 
     suspend fun getCoinById(coinId: String): CoinDetailDto
+
+    suspend fun getFakeData(delay: Long): String
 }
