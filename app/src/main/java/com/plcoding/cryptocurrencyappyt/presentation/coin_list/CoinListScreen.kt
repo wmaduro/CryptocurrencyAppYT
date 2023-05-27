@@ -9,7 +9,7 @@ import androidx.navigation.NavController
 import com.plcoding.cryptocurrencyappyt.presentation.Screen
 import com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.coinlist.CoinList
 import com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.headerbuttons.HeaderButtons
-import com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.lixoheader.LixoHeader
+import com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.fakeheader.LixoHeader
 import com.plcoding.cryptocurrencyappyt.presentation.coin_list.viewmodel.event.CoinListEvent
 import com.plcoding.cryptocurrencyappyt.presentation.coin_list.viewmodel.CoinListViewModel
 
@@ -19,7 +19,7 @@ fun CoinListScreen(
     viewModel: CoinListViewModel = hiltViewModel()
 ) {
     val coinListState = viewModel.coinListState.value
-    val lixoState = viewModel.lixoHeaderState.value
+    val fakeHeaderState = viewModel.fakeHeaderState.value
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -28,14 +28,16 @@ fun CoinListScreen(
             onLixoClick = {
                 viewModel.onEvent(CoinListEvent.RefreshLixo)
             },
+            isLixoEnabled = fakeHeaderState.isLoading.not(),
             onDataClick = {
                 viewModel.onEvent(CoinListEvent.RefreshData)
-            }
+            },
+            isDataButtonEnabled = coinListState.isLoading.not()
         )
 
         LixoHeader(
-            data = lixoState.data,
-            isLoading = lixoState.isLoading
+            data = fakeHeaderState.data,
+            isLoading = fakeHeaderState.isLoading
         )
 
         CoinList(

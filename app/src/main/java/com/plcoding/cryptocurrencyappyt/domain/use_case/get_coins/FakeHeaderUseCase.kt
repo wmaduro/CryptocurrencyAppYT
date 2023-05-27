@@ -8,7 +8,7 @@ import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
 
-class LixoHeaderUseCase @Inject constructor(
+class FakeHeaderUseCase @Inject constructor(
     private val repository: CoinRepository
 ) {
     operator fun invoke(): Flow<Resource<String>> = flow {

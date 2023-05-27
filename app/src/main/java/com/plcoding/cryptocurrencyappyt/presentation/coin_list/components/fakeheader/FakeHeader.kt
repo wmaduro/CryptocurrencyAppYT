@@ -1,4 +1,4 @@
-package com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.lixoheader
+package com.plcoding.cryptocurrencyappyt.presentation.coin_list.components.fakeheader
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row

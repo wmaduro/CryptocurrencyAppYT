@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plcoding.cryptocurrencyappyt.common.Resource
-import com.plcoding.cryptocurrencyappyt.domain.use_case.get_coins.LixoHeaderUseCase
+import com.plcoding.cryptocurrencyappyt.domain.use_case.get_coins.FakeHeaderUseCase
 import com.plcoding.cryptocurrencyappyt.domain.use_case.get_coins.GetCoinsUseCase
 import com.plcoding.cryptocurrencyappyt.presentation.coin_list.viewmodel.event.CoinListEvent
 import com.plcoding.cryptocurrencyappyt.presentation.coin_list.viewmodel.state.CoinListState
-import com.plcoding.cryptocurrencyappyt.presentation.coin_list.viewmodel.state.LixoHeaderState
+import com.plcoding.cryptocurrencyappyt.presentation.coin_list.viewmodel.state.FakeHeaderState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
@@ -20,14 +20,14 @@ import javax.inject.Inject
 @HiltViewModel
 class CoinListViewModel @Inject constructor(
     private val getCoinsUseCase: GetCoinsUseCase,
-    private val lixoHeaderUseCase: LixoHeaderUseCase
+    private val fakeHeaderUseCase: FakeHeaderUseCase
 ) : ViewModel() {
 
     private val _coinListState = mutableStateOf(CoinListState())
     val coinListState: State<CoinListState> = _coinListState
 
-    private val _lixoHeaderState = mutableStateOf(LixoHeaderState())
-    val lixoHeaderState: State<LixoHeaderState> = _lixoHeaderState
+    private val _fakeHeaderState = mutableStateOf(FakeHeaderState())
+    val fakeHeaderState: State<FakeHeaderState> = _fakeHeaderState
 
     init {
         getCoins()
@@ -35,7 +35,7 @@ class CoinListViewModel @Inject constructor(
     }
 
     fun onEvent(event: CoinListEvent) {
-        when(event) {
+        when (event) {
             is CoinListEvent.RefreshLixo -> {
                 getLixo()
             }
@@ -47,11 +47,14 @@ class CoinListViewModel @Inject constructor(
 
     private fun getLixo() {
         viewModelScope.launch {
-            lixoHeaderUseCase().collect { result ->
+            fakeHeaderUseCase().collect { result ->
                 when (result) {
-                    is Resource.Error -> _lixoHeaderState.value = LixoHeaderState(error = "errooooo")
-                    is Resource.Loading -> _lixoHeaderState.value = LixoHeaderState(isLoading = true)
-                    is Resource.Success -> _lixoHeaderState.value = LixoHeaderState(data = result.data ?: "")
+                    is Resource.Error -> _fakeHeaderState.value =
+                        FakeHeaderState(error = "errooooo")
+                    is Resource.Loading -> _fakeHeaderState.value =
+                        FakeHeaderState(isLoading = true)
+                    is Resource.Success -> _fakeHeaderState.value =
+                        FakeHeaderState(data = result.data ?: "")
                 }
             }
         }
