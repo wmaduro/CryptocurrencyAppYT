@@ -31,13 +31,13 @@ class CoinListViewModel @Inject constructor(
 
     init {
         getCoins()
-        getLixo()
+        getFakeHeader()
     }
 
     fun onEvent(event: CoinListEvent) {
         when (event) {
-            is CoinListEvent.RefreshLixo -> {
-                getLixo()
+            is CoinListEvent.RefreshFakeHeader -> {
+                getFakeHeader()
             }
             CoinListEvent.RefreshData -> {
                 getCoins()
@@ -45,7 +45,7 @@ class CoinListViewModel @Inject constructor(
         }
     }
 
-    private fun getLixo() {
+    private fun getFakeHeader() {
         viewModelScope.launch {
             fakeHeaderUseCase().collect { result ->
                 when (result) {

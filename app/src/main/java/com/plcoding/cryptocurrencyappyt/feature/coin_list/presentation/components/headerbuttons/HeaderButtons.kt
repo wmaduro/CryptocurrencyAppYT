@@ -7,14 +7,14 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun HeaderButtons(
-    onLixoClick: () -> Unit,
+    onFakeHeaderClick: () -> Unit,
     onDataClick: () -> Unit,
-    isLixoEnabled: Boolean,
+    isFakeHeaderEnabled: Boolean,
     isDataButtonEnabled: Boolean
 ) {
     Row(){
-        Button(onClick = onLixoClick, enabled = isLixoEnabled) {
-            Text(text = "Lixo")
+        Button(onClick = onFakeHeaderClick, enabled = isFakeHeaderEnabled) {
+            Text(text = "FakeHeader")
         }
         Button(onClick = onDataClick, enabled = isDataButtonEnabled) {
             Text(text = "Data")

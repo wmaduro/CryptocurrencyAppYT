@@ -6,12 +6,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.plcoding.cryptocurrencyappyt.shared.navigation.Screen
 import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.components.coinlist.CoinList
+import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.components.fakeheader.FakeHeader
 import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.components.headerbuttons.HeaderButtons
-import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.components.fakeheader.LixoHeader
-import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.viewmodel.event.CoinListEvent
 import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.viewmodel.CoinListViewModel
+import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.viewmodel.event.CoinListEvent
+import com.plcoding.cryptocurrencyappyt.shared.navigation.Screen
 
 @Composable
 fun CoinListScreen(
@@ -25,17 +25,17 @@ fun CoinListScreen(
         modifier = Modifier.fillMaxSize()
     ) {
         HeaderButtons(
-            onLixoClick = {
-                viewModel.onEvent(CoinListEvent.RefreshLixo)
+            onFakeHeaderClick = {
+                viewModel.onEvent(CoinListEvent.RefreshFakeHeader)
             },
-            isLixoEnabled = fakeHeaderState.isLoading.not(),
+            isFakeHeaderEnabled = fakeHeaderState.isLoading.not(),
             onDataClick = {
                 viewModel.onEvent(CoinListEvent.RefreshData)
             },
             isDataButtonEnabled = coinListState.isLoading.not()
         )
 
-        LixoHeader(
+        FakeHeader(
             data = fakeHeaderState.data,
             isLoading = fakeHeaderState.isLoading
         )
