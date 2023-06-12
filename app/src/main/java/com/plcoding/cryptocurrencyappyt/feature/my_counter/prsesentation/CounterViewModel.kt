@@ -25,10 +25,31 @@ class CounterViewModel @Inject constructor() : ViewModel() {
     }
 
     init {
-        collectTest()
+        flatOperator()
+//        collectTest()
 //        collectUsingOnEach()
     }
 
+    private fun flatOperator() {
+
+        val flow1 = flow {
+            emit(1)
+            delay(1000)
+            emit(2)
+        }
+
+        viewModelScope.launch {
+            flow1.flatMapConcat { value ->
+                flow {
+                    emit(value + 1)
+                    delay(1000)
+                    emit(value + 2)
+                }
+            }.collect { value ->
+                println("lixo $value")
+            }
+        }
+    }
 
     private fun collectTest() {
         viewModelScope.launch {
