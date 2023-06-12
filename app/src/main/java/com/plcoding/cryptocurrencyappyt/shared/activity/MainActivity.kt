@@ -10,7 +10,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.plcoding.cryptocurrencyappyt.shared.navigation.Screen
 import com.plcoding.cryptocurrencyappyt.feature.coin_detail.presentation.CoinDetailScreen
-import com.plcoding.cryptocurrencyappyt.feature.coin_list.CoinListScreen
+import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.CoinListScreen
+import com.plcoding.cryptocurrencyappyt.feature.menu.presentation.MenuScreen
+import com.plcoding.cryptocurrencyappyt.feature.my_counter.prsesentation.CounterScreen
 import com.plcoding.cryptocurrencyappyt.shared.ui.theme.CryptocurrencyAppYTTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,8 +26,18 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(
                         navController = navController,
-                        startDestination = Screen.CoinListScreen.route
+                        startDestination = Screen.MenuScreen.route
                     ) {
+                        composable(
+                            route = Screen.MenuScreen.route
+                        ) {
+                            MenuScreen(navController)
+                        }
+                        composable(
+                            route = Screen.CounterScreen.route
+                        ) {
+                            CounterScreen(navController)
+                        }
                         composable(
                             route = Screen.CoinListScreen.route
                         ) {

@@ -1,4 +1,4 @@
-package com.plcoding.cryptocurrencyappyt.feature.coin_list
+package com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -44,11 +44,13 @@ fun CoinListScreen(
             onFakeHeaderClick = {
                 viewModel.onEvent(CoinListEvent.RefreshFakeHeader)
             },
-            isFakeHeaderEnabled = fakeHeaderState2 != FakeHeaderState2.Loading,
+            isFakeHeaderEnabled = fakeHeaderState2 != FakeHeaderState2.Loading.also{ it ->
+                println("maduro $it")
+            },
             onDataClick = {
                 viewModel.onEvent(CoinListEvent.RefreshData)
             },
-            isDataButtonEnabled = coinListState.isLoading.not()
+            isDataButtonEnabled = fakeHeaderState2 != FakeHeaderState2.Loading,
         )
 
         FakeHeader(

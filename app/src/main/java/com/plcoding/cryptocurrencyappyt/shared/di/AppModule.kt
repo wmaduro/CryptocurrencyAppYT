@@ -12,8 +12,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -28,10 +28,16 @@ object AppModule {
 ////            .addIns
 //            .build()
 
+        val logging = HttpLoggingInterceptor()
+        logging.setLevel(HttpLoggingInterceptor.Level.BASIC)
+
+        val httpClient = OkHttpClient.Builder()
+        httpClient.addInterceptor(logging)
+
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-//            .client(httpClient)
+            .client(httpClient.build())
             .build()
             .create(CoinPaprikaApi::class.java)
     }
