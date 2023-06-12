@@ -25,23 +25,28 @@ class CounterViewModel @Inject constructor() : ViewModel() {
     }
 
     init {
-//        collectTest()
-        collectUsingOnEach()
+        collectTest()
+//        collectUsingOnEach()
     }
 
 
     private fun collectTest() {
         viewModelScope.launch {
-            countDownFlow
-                .filter { time ->
-                    time > 3
-                }
-                .map { time ->
-                    time * time
-                }
-                .collect() { time ->
+            val count = countDownFlow
+//                .filter { time ->
+//                    time > 3
+//                }
+//                .map { time ->
+//                    time * time
+//                }
+                .onEach { time ->
                     println("lixo $time")
                 }
+                .count{ value ->
+                    value % 2 == 0
+                }
+
+            println ("lixo count = $count")
         }
     }
 
