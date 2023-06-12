@@ -32,21 +32,27 @@ class CounterViewModel @Inject constructor() : ViewModel() {
 
     private fun collectTest() {
         viewModelScope.launch {
-            val count = countDownFlow
-//                .filter { time ->
-//                    time > 3
-//                }
-//                .map { time ->
-//                    time * time
-//                }
+            val myReduce = countDownFlow
                 .onEach { time ->
                     println("lixo $time")
                 }
-                .count{ value ->
-                    value % 2 == 0
+                .reduce { acummulator, value ->
+                    acummulator + value
                 }
 
-            println ("lixo count = $count")
+            println("lixo myReduce = $myReduce")
+        }
+
+        viewModelScope.launch {
+            val myFold = countDownFlow
+                .onEach { time ->
+                    println("lixo $time")
+                }
+                .fold(100) { acummulator, value ->
+                    acummulator + value
+                }
+
+            println("lixo myFold = $myFold")
         }
     }
 
