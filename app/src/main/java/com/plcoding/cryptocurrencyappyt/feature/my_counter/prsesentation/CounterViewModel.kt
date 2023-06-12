@@ -25,11 +25,34 @@ class CounterViewModel @Inject constructor() : ViewModel() {
     }
 
     init {
-        collectFlowStrategyBuffer()
+        collectFlowStrategyConflate()
+//        collectFlowStrategyBuffer()
 //        collectFlowStrategySequential()
 //        flatOperator()
 //        collectTest()
 //        collectUsingOnEach()
+    }
+    private fun collectFlowStrategyConflate(){
+        val restaurantFlow = flow {
+            delay(500)
+            emit("Appetizer")
+            delay(1500)
+            emit("Main Dish")
+            delay(500)
+            emit("Desert")
+        }
+
+        viewModelScope.launch {
+            restaurantFlow.onEach {
+                println("lixo - $it is delivered")
+            }
+                .conflate()
+                .collect { dish ->
+                    println("lixo - eating $dish")
+                    delay(3000)
+                    println("lixo - FINISH $dish")
+                }
+        }
     }
 
     private fun collectFlowStrategyBuffer(){
