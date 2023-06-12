@@ -4,22 +4,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CounterViewModel  @Inject constructor(): ViewModel() {
+class CounterViewModel @Inject constructor() : ViewModel() {
 
 
-    val countDownFlow = flow <Int>{
+    val countDownFlow = flow<Int> {
         val startValue = 10
         var currValue = startValue
         emit(startValue)
 
-        while (currValue >0 ){
+        while (currValue > 0) {
             delay(1_000)
             currValue--
             emit(currValue)
@@ -27,16 +25,33 @@ class CounterViewModel  @Inject constructor(): ViewModel() {
     }
 
     init {
-        collectTest()
+//        collectTest()
+        collectUsingOnEach()
     }
-   private fun collectTest(){
+
+
+    private fun collectTest() {
         viewModelScope.launch {
-            countDownFlow.collectLatest {  time ->
-                println("lixo waiting $time")
-                delay(3000)
-                println("lixo $time")
-            }
+            countDownFlow
+                .filter { time ->
+                    time > 3
+                }
+                .map { time ->
+                    time * time
+                }
+                .collect() { time ->
+                    println("lixo $time")
+                }
         }
+    }
+
+    private fun collectUsingOnEach() {
+        countDownFlow
+            .onEach { time ->
+                println("lixo oneach $time")
+            }
+            .launchIn(viewModelScope)
+
     }
 }
 
