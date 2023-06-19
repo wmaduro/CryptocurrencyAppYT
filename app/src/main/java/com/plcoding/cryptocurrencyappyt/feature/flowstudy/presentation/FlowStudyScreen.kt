@@ -11,12 +11,14 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
+import java.util.Date
 
 @Composable
 fun FlowStudyScreen(
@@ -24,9 +26,16 @@ fun FlowStudyScreen(
 ) {
 
     LaunchedEffect(Unit) {
-        delay(2000)
         viewModel.myCounterStateFlow.collect() {
-            println("maduro - LaunchedEffect - $it")
+            if (it.isNotBlank()) {
+                println("maduro - LaunchedEffect myCounterStateFlow - $it")
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.myCounterFlow().collect() {
+            println("maduro - LaunchedEffect myCounterFlow - $it")
         }
     }
 
@@ -62,7 +71,9 @@ fun FlowStudyScreen(
         }
 
         //STATE FLOW
-        BuildBlock("State Flow") {}
+        BuildBlock(viewModel.myStateFlow.collectAsState().value) {
+            viewModel.refreshMyStateFlow("start state flow ${Date().time}")
+        }
         Divider(Modifier.height(10.dp))
 
         //SHARED FLOW

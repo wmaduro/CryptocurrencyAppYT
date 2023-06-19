@@ -27,6 +27,13 @@ class FlowStudyViewModel @Inject constructor() : ViewModel() {
     private val _myCounterMutableStateFlow = MutableStateFlow("")
     val myCounterStateFlow: StateFlow<String>  = _myCounterMutableStateFlow.asStateFlow()
 
+    //SIMPLE STATE FLOW
+    private val _myStateFlow = MutableStateFlow<String>("")
+    val myStateFlow = _myStateFlow
+
+    fun refreshMyStateFlow(s: String) {
+        _myStateFlow.value = s
+    }
 
     init {
         viewModelScope.launch {
@@ -35,11 +42,12 @@ class FlowStudyViewModel @Inject constructor() : ViewModel() {
 //                println("maduro - myStateFlow  $it")
 //            }
             _myCounterMutableStateFlow.collect {
-                println("maduro - _myMutableStateFlow  $it")
+//                println("maduro - _myMutableStateFlow  $it")
             }
 
         }
     }
+
 
     fun startMyCounterFlow(){
         viewModelScope.launch {
@@ -50,7 +58,7 @@ class FlowStudyViewModel @Inject constructor() : ViewModel() {
         }
     }
 
-    private fun myCounterFlow(): Flow<String> {
+    fun myCounterFlow(): Flow<String> {
         return flow {
             repeat(5) {
                 emit("$it")
