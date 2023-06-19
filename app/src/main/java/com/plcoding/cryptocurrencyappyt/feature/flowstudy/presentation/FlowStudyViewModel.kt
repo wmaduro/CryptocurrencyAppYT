@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,11 +26,21 @@ class FlowStudyViewModel @Inject constructor() : ViewModel() {
 
     //STATE FLOW
     private val _myCounterMutableStateFlow = MutableStateFlow("")
-    val myCounterStateFlow: StateFlow<String>  = _myCounterMutableStateFlow.asStateFlow()
+    val myCounterStateFlow: StateFlow<String> = _myCounterMutableStateFlow.asStateFlow()
 
     //SIMPLE STATE FLOW
     private val _myStateFlow = MutableStateFlow<String>("")
     val myStateFlow = _myStateFlow
+
+    //SHARED FLOW
+    private val _myStateSharedFlow = MutableSharedFlow<String>()
+    val myStateSharedFlow = _myStateSharedFlow
+
+    fun refreshMyStateSharedFlow(s: String) {
+        viewModelScope.launch {
+            _myStateSharedFlow.emit(s)
+        }
+    }
 
     fun refreshMyStateFlow(s: String) {
         _myStateFlow.value = s
@@ -49,7 +60,7 @@ class FlowStudyViewModel @Inject constructor() : ViewModel() {
     }
 
 
-    fun startMyCounterFlow(){
+    fun startMyCounterFlow() {
         viewModelScope.launch {
             myCounterFlow().collect() {
                 _myMutableState.value = it

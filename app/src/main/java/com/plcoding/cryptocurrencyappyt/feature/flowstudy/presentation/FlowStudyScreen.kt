@@ -78,7 +78,9 @@ fun FlowStudyScreen(
 
         //SHARED FLOW
         Divider(Modifier.height(10.dp))
-        BuildBlock("Shared Flow") {}
+        BuildBlock(viewModel.myStateSharedFlow.collectAsState(initial = "shared flow init").value) {
+            viewModel.refreshMyStateSharedFlow("shared flow ${Date().time}")
+        }
 
     }
 }
