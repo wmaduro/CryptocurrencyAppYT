@@ -24,8 +24,16 @@ class CounterViewModel @Inject constructor() : ViewModel() {
         }
     }
 
+    private val _stateFlow  = MutableStateFlow(value = 0)
+    val stateFlow = _stateFlow.asStateFlow()
+
+    fun increment(){
+        _stateFlow.value += 1
+        println("lixo ${_stateFlow.value}")
+    }
+
     init {
-        collectFlowStrategyLatest()
+//        collectFlowStrategyLatest()
 //        collectFlowStrategyConflate()
 //        collectFlowStrategyBuffer()
 //        collectFlowStrategySequential()

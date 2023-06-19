@@ -67,7 +67,7 @@ fun MenuScreen(
 }
 
 
-fun buildItems(screens: List<Screen>): List<@Composable () -> Unit> {
+private fun buildItems(screens: List<Screen>): List<@Composable () -> Unit> {
     val screensFiltered = screens.filter { screen ->
         screen.menuName != null
     }
