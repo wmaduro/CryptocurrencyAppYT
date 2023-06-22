@@ -41,7 +41,7 @@ fun MenuScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(100.dp)
+                        .height(50.dp)
                         .padding(vertical = 5.dp)
                         .clickable {
                             navController.navigate(screen.route)
