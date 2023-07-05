@@ -1,4 +1,4 @@
-package com.plcoding.cryptocurrencyappyt.shared.menu.presentation
+package com.plcoding.cryptocurrencyappyt.feature.menu.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -18,7 +18,8 @@ import com.plcoding.cryptocurrencyappyt.feature.coin_detail.presentation.CoinDet
 import com.plcoding.cryptocurrencyappyt.feature.coin_list.presentation.CoinListScreen
 import com.plcoding.cryptocurrencyappyt.feature.effecthandlers.presentation.EffectHandlerScreen
 import com.plcoding.cryptocurrencyappyt.feature.flowstudy.presentation.FlowStudyScreen
-import com.plcoding.cryptocurrencyappyt.shared.menu.presentation.MenuScreen
+import com.plcoding.cryptocurrencyappyt.feature.material_study.view.MaterialStudyScreen
+import com.plcoding.cryptocurrencyappyt.feature.menu.presentation.MenuScreen
 import com.plcoding.cryptocurrencyappyt.feature.my_counter.prsesentation.CounterScreen
 import com.plcoding.cryptocurrencyappyt.shared.navigation.Screen
 import com.plcoding.cryptocurrencyappyt.shared.ui.theme.CryptocurrencyAppYTTheme
@@ -51,6 +52,11 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             startDestination = Screen.MenuScreen.route
                         ) {
+                            composable(
+                                route = Screen.MaterialStudy.route
+                            ) {
+                                MaterialStudyScreen()
+                            }
                             composable(
                                 route = Screen.EffectHandler.route
                             ) {
